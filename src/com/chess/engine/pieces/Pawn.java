@@ -12,7 +12,7 @@ import java.util.List;
 
 public class Pawn extends Piece{
 
-    private final static int[] CANDIDATE_MOVE_COORDINATE = {8};
+    private final static int[] CANDIDATE_MOVE_COORDINATE = {8, 16, 7, 9};
 
     Pawn(final int piecePosition, final Alliance pieceAlliance) {
         super(piecePosition, pieceAlliance);
@@ -31,7 +31,7 @@ public class Pawn extends Piece{
             continue;
         }
           if(currentCandidateOffset==8 && board.getTile(candidateDestinationCoordinate).isTileOccupied()){
-        //TODO more work here(deal with promotions)
+        //TODO more work here(deal with promotions  )
                legalMoves.add(new MajorMove(board, this, candidateDestinationCoordinate));
         }else if(currentCandidateOffset == 16 && this.isFirstMove() &&
                   (BoardUtils.SECOND_ROW[this.piecePosition] && this.getPieceAlliance().isBlack()) ||
@@ -40,9 +40,28 @@ public class Pawn extends Piece{
               if(!board.getTile(behindCandidateDestinationCoordinate).isTileOccupied() &&
                       !board.getTile(candidateDestinationCoordinate).isTileOccupied()){
                   legalMoves.add(new MajorMove(board, this, candidateDestinationCoordinate));
-
                 }
+            } else if(currentCandidateOffset == 7 &&
+                  !((BoardUtils.EIGHTH_COLUMN[this.piecePosition] && pieceAlliance.isWhite() ||
+                  (BoardUtils.FIRST_COLUMN[this.piecePosition] && this.pieceAlliance.isBlack()))) ) {
+              if(board.getTile(candidateDestinationCoordinate).isTileOccupied()){
+                  final Piece pieceOnCandidate = board.getTile(candidateDestinationCoordinate).getPiece();
+                  if(this.pieceAlliance != pieceOnCandidate.getPieceAlliance()){
+                      //TODO
+                      legalMoves.add(new MajorMove(board, this, candidateDestinationCoordinate));
+                  }
+              }
 
+          } else if(currentCandidateOffset ==9 &&
+                  !((BoardUtils.FIRST_COLUMN[this.piecePosition] && pieceAlliance.isWhite() ||
+                          (BoardUtils.EIGHTH_COLUMN[this.piecePosition] && this.pieceAlliance.isBlack())))){
+              if(board.getTile(candidateDestinationCoordinate).isTileOccupied()){
+                  final Piece pieceOnCandidate = board.getTile(candidateDestinationCoordinate).getPiece();
+                  if(this.pieceAlliance != pieceOnCandidate.getPieceAlliance()){
+                      //TODO
+                      legalMoves.add(new MajorMove(board, this, candidateDestinationCoordinate));
+                  }
+              }
             }
         }
         return legalMoves;
