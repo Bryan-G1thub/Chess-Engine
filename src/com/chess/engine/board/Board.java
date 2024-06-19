@@ -29,6 +29,10 @@ public class Board {
         return Collections.unmodifiableList(List.of(tiles));
     }
 
+    public static Board createStandardBoard(){
+
+    }
+
     public static class Builder {
 
         Map<Integer, Piece> boardConfig;
