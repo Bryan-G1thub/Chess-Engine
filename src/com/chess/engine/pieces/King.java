@@ -17,7 +17,7 @@ public class King extends Piece{
 
 
 
-    King(int piecePosition, Alliance pieceAlliance) {
+    public King(Alliance pieceAlliance, int piecePosition) {
         super(piecePosition, pieceAlliance);
     }
 
